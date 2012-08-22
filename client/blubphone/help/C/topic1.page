@@ -1,0 +1,22 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="topic1">
+
+<info>
+  <link type="guide" xref="index#contents"/>
+  <credit type="author">
+    <name>Markus Lanner, Manuela Weilharter</name>
+    <email>markus@mlanner.com, caitilyn@gmail.com</email>
+    <years>2012</years>
+  </credit>
+  <desc>A short description how to use blubPhone</desc>
+</info>
+
+<title>Usage Guide</title>
+	<p>1. Open the Android blubPhone application on your smartphone.</p>
+	<p>2. Activate your WLAN Connection.</p>
+	<p>3. Open the Ubuntu blubPhone application.</p>
+	<p>4. A list of device, which were found, is shown. Choose your smartphone.</p>
+	<p>5. Generate a password with the android app and enter it in the designated textfield.</p>
+	<p>6. Press connect. If the connection is successfully established, you will see a button to disconnect the devices.</p>
+</page>

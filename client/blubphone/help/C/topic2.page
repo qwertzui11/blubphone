@@ -1,0 +1,20 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="topic2">
+
+<info>
+  <link type="guide" xref="index#contents"/>
+  <credit type="author">
+    <name>Markus Lanner, Manuela Weilharter</name>
+    <email>markus@mlanner.com, caitilyn@gmail.com</email>
+    <years>2012</years>
+  </credit>
+  <desc>What is needed to use this application.</desc>
+</info>
+
+<title>What is needed?</title>
+	<p>1. Android App: available at the Google Play Store or by scanning the following QR-Code with your smartphone:
+	<media type="image" mime="image/png" src="figures/qr.png"></media></p>
+	<p>2. Ubuntu App: the application you are using right now :)</p>
+	<p>3. Active WLAN on your smartphone!</p>	
+</page>

@@ -1,0 +1,32 @@
+#!/usr/bin/make -f
+%:
+ifneq ($(shell dh -l | grep -xF translations),)
+	dh $@ --with python2,translations
+else
+	dh $@ --with python2
+endif
+
+override_dh_auto_install:
+	dh_auto_install -- --install-scripts=/opt/extras.ubuntu.com/blubphone/bin                 --install-data=/opt/extras.ubuntu.com/blubphone                 --install-lib=/opt/extras.ubuntu.com/blubphone
+
+override_dh_python2:
+	dh_python2 /opt/extras.ubuntu.com/blubphone
+
+
+override_dh_install:
+	dh_install
+	mkdir -p debian/blubphone/opt/extras.ubuntu.com/blubphone/bin
+	if [ -x debian/blubphone/opt/extras.ubuntu.com/blubphone/blubphone/blubphone ]; then mv debian/blubphone/opt/extras.ubuntu.com/blubphone/blubphone/blubphone debian/blubphone/opt/extras.ubuntu.com/blubphone/bin; fi
+	if [ -f debian/blubphone/opt/extras.ubuntu.com/blubphone/share/applications/blubphone.desktop ]; then \
+		mkdir -p debian/blubphone/usr/share/applications; \
+		mv debian/blubphone/opt/extras.ubuntu.com/blubphone/share/applications/blubphone.desktop debian/blubphone/usr/share/applications/extras-blubphone.desktop; \
+		rmdir --ignore-fail-on-non-empty debian/blubphone/opt/extras.ubuntu.com/blubphone/share/applications; \
+		sed -i 's|Exec=[^ ]*|Exec=/opt/extras.ubuntu.com/blubphone/bin/blubphone|' debian/blubphone/usr/share/applications/extras-blubphone.desktop; \
+		sed -i 's|Icon=/usr/|Icon=/opt/extras.ubuntu.com/blubphone/|' debian/blubphone/usr/share/applications/extras-blubphone.desktop; \
+	fi
+	grep -RlZ 'import gettext' debian/blubphone/* | xargs -0 -r sed -i 's|\(import\) gettext$$|\1 locale|'
+	grep -RlZ 'from gettext import gettext as _' debian/blubphone/* | xargs -0 -r sed -i 's|from gettext \(import gettext as _\)|from locale \1|'
+	grep -RlZ "gettext.textdomain('blubphone')" debian/blubphone/* | xargs -0 -r sed -i "s|gettext\(\.textdomain('blubphone')\)|locale\.bindtextdomain('blubphone', '/opt/extras.ubuntu.com/blubphone/share/locale')\nlocale\1|" 
+	sed -i "s|__blubphone_data_directory__ =.*|__blubphone_data_directory__ = '/opt/extras.ubuntu.com/blubphone/share/blubphone/'|" debian/blubphone/opt/extras.ubuntu.com/blubphone/blubphone*/blubphoneconfig.py
+	sed -i 's|        sys.path.insert(0, opt_path)|\0\n    os.putenv("XDG_DATA_DIRS", "%s:%s" % ("/opt/extras.ubuntu.com/blubphone/share/", os.getenv("XDG_DATA_DIRS", "")))|' debian/blubphone/opt/extras.ubuntu.com/blubphone/bin/blubphone
+	if [ -d debian/blubphone/opt/extras.ubuntu.com/blubphone/share/glib-2.0/schemas ]; then glib-compile-schemas debian/blubphone/opt/extras.ubuntu.com/blubphone/share/glib-2.0/schemas; fi

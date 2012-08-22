@@ -1,0 +1,18 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="preferences">
+
+<info>
+  <link type="guide"/>
+  <credit type="author">
+    <name>Markus Lanner, Manuela Weilharter</name>
+    <email>markus@mlanner.com, caitilyn@gmail.com</email>
+    <years>2012</years>
+  </credit>
+  <desc>Not yet ready.</desc>
+</info>
+
+<title>Preferences</title>
+<p>This will be a preferences page.</p>
+
+</page>

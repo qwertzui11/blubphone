@@ -1,0 +1,36 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="guide"
+      id="index">
+
+<info>
+  <!-- This shows in the title bar so does not show [icon] -->
+  <title type="text">Blubphone</title>
+  <desc>The <app>Blubphone</app> help.</desc>
+  <credit type="author">
+    <name>Markus Lanner, Manuela Weilharter</name>
+    <email>markus@mlanner.com, caitilyn@gmail.com</email>
+    <years>2012</years>
+  </credit>
+  <license href="http://creativecommons.org/licenses/by-sa/3.0/">
+  <p>Creative Commons Attribution-Share Alike 3.0 Unported License</p>
+  </license>
+</info>
+
+<title>
+<!-- This shows on the page in title font -->
+<!-- the icon only shows when installed -->
+<media type="image" mime="image/png" src="figures/icon.png">[icon]</media>
+<app>blubPhone</app> Help
+</title>
+
+<p>This page offers a short help for our application...</p>
+
+<p>If you encounter any problems, find a bug or if you want to request further features, do not hesitate to contact us. </p>
+
+<!-- This is the visible index -->
+<section id="contents" style="2column">
+<!-- other pages needs to have a link to index#contents for this to work -->
+<title>Main</title>
+</section>
+
+</page>

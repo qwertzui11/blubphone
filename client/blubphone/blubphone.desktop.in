@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=blubPhone
+_Comment=Blubphone application
+Categories=GNOME;Utility;
+Exec=blubphone
+Icon=/usr/share/blubphone/media/blubphone.svg
+Terminal=false
+Type=Application
