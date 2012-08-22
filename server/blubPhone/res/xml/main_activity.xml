@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <Preference android:selectable="false" android:title="Welcome" android:enabled="true" android:summary="@string/welcomeText"/>
+    <Preference android:title="change password" android:summary="Click here to generate a new password" android:selectable="true" android:enabled="true"/>
+    <Preference android:summary='Created by Manuela Weilharter and Markus Lanner for "Ubuntu App Showdown 2012".' android:title="Authors" android:selectable="false"/>
+    
+
+</PreferenceScreen>

@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="app_name">blubPhone</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">blubPhone</string>
+    <string name="welcomeText">This is a very interesting welcome text, which nobody will read. So why should we bother.</string>
+    <string name="not_connected">You are not yet connected. Please connect to this Smartphone from your Ubuntu.\n</string>
+    <string name="recreate_password">generate password</string>
+    <string name="success_connected">Your are connected; have fun with blubPhone!\\nBuy the developer a beer at \"todo\"!</string>
+
+</resources>
