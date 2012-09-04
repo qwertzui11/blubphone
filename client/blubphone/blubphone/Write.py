@@ -22,6 +22,9 @@ from gi.repository import Gtk, Gdk
 import os
 import sys
 
+PROJECT_ROOT_DIRECTORY = os.path.abspath(
+        os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))) + "/data/"
+
 class Write:
 	
 	def __init__(self, notebook, main_window):
@@ -34,13 +37,13 @@ class Write:
         os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0]))))
 
 		write_builder = Gtk.Builder()
-		write_builder.add_from_file(PROJECT_ROOT_DIRECTORY + "/share/blubphone/ui/Write.ui")
+		write_builder.add_from_file(PROJECT_ROOT_DIRECTORY + "ui/Write.ui")
 		self.write = write_builder.get_object("box1")
 		self.write.unparent()  
 
 		self.phonenr_field = write_builder.get_object("entry1")  
 
-		write_builder.add_from_file(PROJECT_ROOT_DIRECTORY + "/share/blubphone/ui/Close.ui")
+		write_builder.add_from_file(PROJECT_ROOT_DIRECTORY + "ui/Close.ui")
 		close = write_builder.get_object("box1")
 		close.unparent()
 

@@ -22,6 +22,9 @@ import Message
 import os
 import sys
 
+PROJECT_ROOT_DIRECTORY = os.path.abspath(
+        os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))) + "/data/"
+
 class SmsThread:
 	
 	def __init__(self, notebook, contact, main_window):
@@ -31,15 +34,12 @@ class SmsThread:
 
         main_window.register_sms_thread(contact, self)
 
-        PROJECT_ROOT_DIRECTORY = os.path.abspath(
-        os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0]))))
-			
 		answer_builder = Gtk.Builder()
-        answer_builder.add_from_file(PROJECT_ROOT_DIRECTORY + "/share/blubphone/ui/Answer.ui")
+        answer_builder.add_from_file(PROJECT_ROOT_DIRECTORY + "ui/Answer.ui")
         self.answer = answer_builder.get_object("box1")
         self.answer.unparent()
 
-        answer_builder.add_from_file(PROJECT_ROOT_DIRECTORY + "/share/blubphone/ui/Close.ui")
+        answer_builder.add_from_file(PROJECT_ROOT_DIRECTORY + "ui/Close.ui")
         close = answer_builder.get_object("box3")
         close.unparent()
 

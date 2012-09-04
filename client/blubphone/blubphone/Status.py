@@ -24,6 +24,9 @@ import threading
 import os
 import sys
 
+PROJECT_ROOT_DIRECTORY = os.path.abspath(
+        os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))) + "/data/"
+
 class Status:
 	opened = False
     devices = dict()
@@ -39,18 +42,15 @@ class Status:
         self.dialog = Gtk.MessageDialog(main_window, 0, Gtk.MessageType.WARNING, Gtk.ButtonsType.CLOSE, "Network error")
         self.dialog.set_title("Network error")
 
-        PROJECT_ROOT_DIRECTORY = os.path.abspath(
-        os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0]))))
-
         print PROJECT_ROOT_DIRECTORY
 		
 		status_builder = Gtk.Builder()
-		status_builder.add_from_file(PROJECT_ROOT_DIRECTORY + "/share/blubphone/ui/Status.ui")
+		status_builder.add_from_file(PROJECT_ROOT_DIRECTORY + "ui/Status.ui")
 		
 		self.status = status_builder.get_object("box1")
 		self.status.unparent()    
 
-		status_builder.add_from_file(PROJECT_ROOT_DIRECTORY + "/share/blubphone/ui/Close.ui")
+		status_builder.add_from_file(PROJECT_ROOT_DIRECTORY + "ui/Close.ui")
 		
 		self.close = status_builder.get_object("box4")
 		self.close.unparent()

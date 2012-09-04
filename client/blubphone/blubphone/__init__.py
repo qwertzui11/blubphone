@@ -18,6 +18,9 @@
 
 import optparse
 
+import os
+import sys
+
 import gettext
 from gettext import gettext as _
 gettext.textdomain('blubphone')
@@ -32,6 +35,9 @@ from blubphone_lib import set_up_logging, get_version
 import gobject
 
 GLib.threads_init()
+
+PROJECT_ROOT_DIRECTORY = os.path.abspath(
+        os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))) + "/data/"
 
 def parse_options():
     """Support for command line options"""
