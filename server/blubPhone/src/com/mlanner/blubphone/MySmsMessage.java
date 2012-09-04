@@ -57,6 +57,88 @@ public class MySmsMessage {
 		
 		return null;
 	}
+
+
+	public long getId() {
+		return id;
+	}
+
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
+	public long getThreadId() {
+		return threadId;
+	}
+
+
+	public void setThreadId(long threadId) {
+		this.threadId = threadId;
+	}
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+	public long getPerson() {
+		return person;
+	}
+
+
+	public void setPerson(long person) {
+		this.person = person;
+	}
+
+
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
+
+
+	public long getType() {
+		return type;
+	}
+
+
+	public void setType(long type) {
+		this.type = type;
+	}
+
+
+	public String getBody() {
+		return body;
+	}
+
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+
+	public boolean isRead() {
+		return read;
+	}
+
+
+	public void setRead(boolean read) {
+		this.read = read;
+	}
+	
+	
 	
 	
 }

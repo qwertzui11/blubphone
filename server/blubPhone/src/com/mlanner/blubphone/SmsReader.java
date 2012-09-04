@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
+
 
 public class SmsReader extends ContentObserver
 {
@@ -46,12 +48,24 @@ public class SmsReader extends ContentObserver
         
         if (cursor.moveToNext()) 
 		{
-           MySmsMessage toAdd = parseCursorLine(cursor);          
+           MySmsMessage toAdd = parseCursorLine(cursor);
+           if (toAdd.isRead() && toAdd.getPerson() != -1)
+           {
+        	   // ignore read, received new sms. Occur on read-update
+        	   return;
+           }
            Logger.getLogger("blubPhone").info(toAdd.toString());
            callbackReceiver.newSms(toAdd);
 		} 
+        
     }
 
+	public void markSmsAsRead(long smdId)
+	{
+		ContentValues values = new ContentValues();
+        values.put("read", true);
+        context.getContentResolver().update(Uri.parse("content://sms/inbox"), values, "_id=" + smdId, null);
+	}
 
 	public static ArrayList<MySmsMessage> readAllSms(Context context)
 	{
@@ -90,6 +104,6 @@ public class SmsReader extends ContentObserver
        return new MySmsMessage(id, threadId, address, person, timestamp, type, body, read);
 	}
 	
-
+	
 	
 }
