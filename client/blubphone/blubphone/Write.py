@@ -32,9 +32,6 @@ class Write:
         self.main_window = main_window
 
         self.main_window.register_write_tab(self)
-		
-        PROJECT_ROOT_DIRECTORY = os.path.abspath(
-        os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0]))))
 
 		write_builder = Gtk.Builder()
 		write_builder.add_from_file(PROJECT_ROOT_DIRECTORY + "ui/Write.ui")
