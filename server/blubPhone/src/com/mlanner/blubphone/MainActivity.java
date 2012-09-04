@@ -255,7 +255,8 @@ public class MainActivity extends PreferenceActivity implements OnPreferenceClic
 		}
 		for (int ind = 0; ind < allSms.size(); ++ind)
 		{
-			if (!sendSms(allSms.get(ind)))
+			MySmsMessage sms = allSms.get(ind);
+			if (!sendSms(sms))
 			{
 				return;
 			}
@@ -265,6 +266,10 @@ public class MainActivity extends PreferenceActivity implements OnPreferenceClic
 	
 	private boolean sendSms(MySmsMessage sms)
 	{
+		if (!sms.isRead())
+		{
+			smsReceiver.markSmsAsRead(sms.getId());
+		}
 		JSONObject msg = sms.toJSONObject();
 		return tcpServer.send(msg.toString() + "\n");
 	}
