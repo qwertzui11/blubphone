@@ -13,5 +13,13 @@
     <string name="really_quit">You won\'t be able to use the blubPhone service anymore.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-
+    <string name="connect_ubuntu">Click here to allow Ubuntu to connect to this Smartphone. You have to be in the same WIFI/WLAN like your computer.</string>
+    <string name="enable_connection">Enable Connection</string>
+    <string name="enable_wifi">Enable WIFI/WLAN</string>
+    <string name="enable_wifi_detail">Please enable your WIFI/WLAN to get blubPhone started.</string>
+    <string name="you_are_connected">You are connected!</string>
+    <string name="connect_success">Enjoy writing and receiving SMS on your Ubuntu. Click to disconnect.</string>
+	<string name="password">Password: %s</string>
+	<string name="wait_for_connect">blubPhone is waiting for a connection from Ubuntu. Please connect to the IP:%s or click here to cancel.</string>
+    
 </resources>

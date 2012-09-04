@@ -13,11 +13,16 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
+import android.provider.Settings;
+import android.text.format.Formatter;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -32,6 +37,8 @@ public class MainActivity extends PreferenceActivity implements OnPreferenceClic
 	private NotificationManager mNotificationManager;
 	private Notification notification;
 	private boolean savedInstance = false; 
+	private int ip;
+	private String ipString;
 	
 	private static final int NOTIFICATION_ID = 1;
 	
@@ -48,6 +55,11 @@ public class MainActivity extends PreferenceActivity implements OnPreferenceClic
 		tcpServer.setCallBackReceiver(this);
 
 		addPreferencesFromResource(R.xml.main_activity);
+		
+		WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+		WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+	   	ip = wifiInfo.getIpAddress();
+	   	ipString = Formatter.formatIpAddress(ip);
 
 		PreferenceScreen screen = getPreferenceScreen();
 		
@@ -136,6 +148,13 @@ public class MainActivity extends PreferenceActivity implements OnPreferenceClic
 	@Override 
 	public void onResume()
 	{
+		WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+		WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+	   	ip = wifiInfo.getIpAddress();
+	   	ipString = Formatter.formatIpAddress(ip);
+	   	
+	   	updateConnectionStatus();
+	   	
 		super.onResume();
 		savedInstance = false;
 	}
@@ -159,22 +178,31 @@ public class MainActivity extends PreferenceActivity implements OnPreferenceClic
 	
 	private void updateConnectionStatus()
 	{
+		Resources res = getResources();
 		String resultHeader = new String();
 		String resultText = new String();
 		if (!tcpServer.isConnected() && !tcpServer.isListening())
 		{
-			resultHeader = "Enable Connection";
-			resultText = "Click here to allow Ubuntu to connect to this Smartphone. You have to be in the same WLAN as your computer.";
+			resultHeader = res.getString(R.string.enable_connection);
+			if (ip != 0)
+			{
+				resultText = res.getString(R.string.connect_ubuntu);
+			}
+			else
+			{
+				resultHeader = res.getString(R.string.enable_wifi);
+				resultText = res.getString(R.string.enable_wifi_detail);
+			}
 		}
 		if (!tcpServer.isConnected() && tcpServer.isListening())
 		{
-			resultHeader = "Password: " + tcpServer.getPassword();
-			resultText = "blubPhone is waiting for a connection from Ubuntu. Click here to cancel.";
+			resultHeader = res.getString(R.string.password, tcpServer.getPassword());
+			resultText = res.getString(R.string.wait_for_connect, ipString);
 		}
 		if (tcpServer.isConnected())
 		{
-			resultHeader = "You are connected!";
-			resultText = "Enjoy writing and receiving SMS on your Ubuntu. Click to disconnect.";
+			resultHeader = res.getString(R.string.you_are_connected);
+			resultText = res.getString(R.string.connect_success);
 		}
 		
 		changePassword.setTitle(resultHeader);
@@ -189,7 +217,14 @@ public class MainActivity extends PreferenceActivity implements OnPreferenceClic
 			
 			if (!tcpServer.isConnected() && !tcpServer.isListening())
 			{
-				tcpServer.startListening();
+				if (ip != 0)
+				{
+					tcpServer.startListening();
+				}
+				else
+				{
+					startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+				}
 			}
 			else if (!tcpServer.isConnected() && tcpServer.isListening())
 			{
