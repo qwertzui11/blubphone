@@ -18,21 +18,13 @@
 
 import SmsThread
 import Contact
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, GLib
 import os
 import sys
 
 PROJECT_ROOT_DIRECTORY = os.path.abspath(
         os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))) + "/data/"
 
-def search_dict(self, text):
-	print text
-	keys = []
-	for key in self.contacts.keys():
-		if text.match(key) != None:
-			keys.append(key)
-		
-	print keys
         
 class Write:
 	
@@ -48,7 +40,11 @@ class Write:
 		self.write.unparent()  
 
 		self.phonenr_field = write_builder.get_object("entry1")  
-
+		self.search_field = write_builder.get_object("entry2")  
+		
+		#self.search_field.connect('backspace', self.on_search_changed)
+        self.search_field.connect('key-press-event', self.on_search_changed)
+        
 		write_builder.add_from_file(PROJECT_ROOT_DIRECTORY + "ui/Close.ui")
 		close = write_builder.get_object("box1")
 		close.unparent()
@@ -76,6 +72,7 @@ class Write:
 		self.treeview.append_column(column1)
 		
         self.contacts = self.main_window.get_all_contacts()
+        self.contacts_dict = self.main_window.all_contacts
 
         # display the contact list in the treeview
         for contact in self.contacts:
@@ -84,14 +81,35 @@ class Write:
 		self.treeview.set_model(self.liststore)  
 
 		self.treeview.connect('cursor-changed', self.row_activated_click)		
-		
-		search_dict(self, "andi")		
 
+	
+	def search_dict(self):
+		text = self.search_field.get_text()	
+		self.searched_contacts = []
+		for key in self.contacts_dict.keys():
+			if (text in key):
+				self.searched_contacts.append(self.contacts_dict[key])
 		
+		for value in self.contacts_dict.values():
+			if (text.lower() in value.name.lower()):
+				self.searched_contacts.append(value)
+			
+			
+		self.liststore.clear()
+		
+		for contact in self.searched_contacts:
+			self.liststore.append([contact.get_name(), contact.get_telnr()])
+		
+		self.treeview.set_model(self.liststore)
+	
+	
     def on_ok_clicked(self, widget):
         if (self.phonenr_field.get_text() != ""):
             self.activate_answer_view()
             self.write.destroy()
+            
+    def on_search_changed(self, widget, abc):
+		GLib.idle_add(self.search_dict)
     
     
     # gets called when a row is clicked in the telephonebook
