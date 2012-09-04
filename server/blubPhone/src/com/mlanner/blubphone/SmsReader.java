@@ -57,29 +57,6 @@ public class SmsReader extends ContentObserver
            callbackReceiver.newSms(toAdd);
 		} 
         
-        
-/*
-        if (cursor.moveToNext()) 
-		{
-           MySmsMessage toAdd = parseCursorLine(cursor);
-           // if (!toAdd.isRead())
-           {
-	           Logger.getLogger("blubPhone").info(toAdd.toString());
-	           callbackReceiver.newSms(toAdd);
-           }
-		}
-        
-        cursor = context.getContentResolver().query(
-				Uri.parse("content://sms/sent"), 
-				fields,
-				null, null, null);
-        
-        if (cursor.moveToNext()) 
-		{
-           MySmsMessage toAdd = parseCursorLine(cursor);
-           Logger.getLogger("blubPhone").info(toAdd.toString());
-           callbackReceiver.newSms(toAdd);
-		}*/
     }
 
 	public void markSmsAsRead(long smdId)
