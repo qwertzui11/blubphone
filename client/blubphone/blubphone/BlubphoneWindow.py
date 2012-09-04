@@ -66,10 +66,10 @@ class BlubphoneWindow(Window):
 		#self.connect_btn = self.builder.get_object("Connect")
 	
 		connect_menu = builder.get_object("mnu_new")
-		newsms_menu = builder.get_object("mnu_open")
-		print connect_menu
+		self.newsms_menu = builder.get_object("mnu_open")
+		self.newsms_btn = builder.get_object("Write")
+		self.newsms_btn.set_sensitive(False)
 		connect_menu.connect("activate", self.on_Status_clicked)
-		newsms_menu.connect("activate", self.on_Write_clicked)
      
         ''' set up tcp Connection to android '''
         # client = Network.tcpClient()
@@ -92,7 +92,7 @@ class BlubphoneWindow(Window):
             self.status.listenerError("Please connect first")
             return
         Write.Write(self.notebook, self)
-
+		
 
     def listenerContact(self, contact):
         self.all_contacts[contact.get_telnr()] = contact
@@ -183,6 +183,7 @@ class BlubphoneWindow(Window):
         
     def listenerConnected(self, connected):
         if connected:
+			self.newsms_btn.set_sensitive(True)
             noti = Notify.Notification.new("connected", "You are now connected with your Smartphone", "notification-message-im")
             noti.show()
         else:

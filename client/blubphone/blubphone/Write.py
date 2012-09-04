@@ -25,6 +25,15 @@ import sys
 PROJECT_ROOT_DIRECTORY = os.path.abspath(
         os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))) + "/data/"
 
+def search_dict(self, text):
+	print text
+	keys = []
+	for key in self.contacts.keys():
+		if text.match(key) != None:
+			keys.append(key)
+		
+	print keys
+        
 class Write:
 	
 	def __init__(self, notebook, main_window):
@@ -66,29 +75,20 @@ class Write:
 		self.treeview.append_column(column0)
 		self.treeview.append_column(column1)
 		
-		# create dummy data
         self.contacts = self.main_window.get_all_contacts()
-        '''
-        self.contacts.append(Contact.Contact(0, "Manu", "0650/2040726"))
-        self.contacts.append(Contact.Contact(1, "Markus", "0699/19666333"))
-        self.contacts.append(Contact.Contact(2, "Dagmar", "0676/12388767"))
-        '''
+
         # display the contact list in the treeview
         for contact in self.contacts:
             self.liststore.append([contact.get_name(), contact.get_telnr()])
 
 		self.treeview.set_model(self.liststore)  
 
-		# self.treeview.connect('row-activated', self.row_activated_doubleclick)
-		self.treeview.connect('cursor-changed', self.row_activated_click)
+		self.treeview.connect('cursor-changed', self.row_activated_click)		
+		
+		search_dict(self, "andi")		
 
-		#self.treeview.show_all() 
 		
-		
-		
-	    # if the ok button in the telephone book / contacts view is clicked
     def on_ok_clicked(self, widget):
-        #TODO check if phone nr is valid!?
         if (self.phonenr_field.get_text() != ""):
             self.activate_answer_view()
             self.write.destroy()
@@ -106,7 +106,6 @@ class Write:
             self.phonenr_field.set_text(value)
         
         except: ()
-        
         
         
     # opens the read/write view
@@ -127,17 +126,9 @@ class Write:
             self.main_window.focus_thread(cur_contact)
         else:
             SmsThread.SmsThread(self.notebook, cur_contact, self.main_window)
-	
-	
-	
+		
 	def on_tabclose_clicked(self, widget):
-		'''pagenum = self.notebook.page_num(self.write)
-        if pagenum < 0:
-            print "invalid pagenum"
-            return
-		self.notebook.remove_page(pagenum)
-        '''
-        # above code simply not working --> leads to breakdown in Status!?!
+
 
         self.main_window.unregister_write_tab(self)
         self.write.hide()

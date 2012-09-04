@@ -58,7 +58,8 @@ class Status:
 		self.drop_conn_btn = status_builder.get_object("Drop_Connection")
 		self.conn_btn = status_builder.get_object("Establish_Connection")
         self.device_list = status_builder.get_object("device_list")
-        self.ip_entry = status_builder.get_object("ip")
+        self.ip_entry = status_builder.get_object("ip")       
+        
         self.name_store = Gtk.ListStore(str)
         self.device_list.set_model(self.name_store)
         renderer_text = Gtk.CellRendererText()
@@ -68,6 +69,7 @@ class Status:
         self.device_list.connect("changed", self.on_device_list_changed)
 		
 		self.entry_field = status_builder.get_object("entry1")
+		self.entry_field.connect("activate", self.on_PwEntry_clicked)
 		
 		self.conn_btn.connect("clicked", self.on_connect_clicked)
 		self.drop_conn_btn.connect("clicked", self.on_disconnect_clicked)
@@ -85,6 +87,12 @@ class Status:
 
     def set_opened(self):
         self.notebook.set_current_page(0)
+        
+    def on_PwEntry_clicked(self, widget):
+		#read pw from entry
+		password = self.entry_field.get_text()
+        address = self.ip_entry.get_text()
+        self.client.connect(address, password)		
 
     def on_device_list_changed(self, combo):
         tree_iter = combo.get_active_iter()
