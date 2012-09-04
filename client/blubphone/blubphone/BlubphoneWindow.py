@@ -23,6 +23,8 @@ import Search
 import SmsThread
 import Status
 import Write
+import os
+import sys
 
 from gettext import gettext as _
 gettext.textdomain('blubphone')
@@ -34,7 +36,6 @@ logger = logging.getLogger('blubphone')
 from blubphone_lib import Window
 from blubphone.AboutBlubphoneDialog import AboutBlubphoneDialog
 from blubphone.PreferencesBlubphoneDialog import PreferencesBlubphoneDialog
-
 
 # See blubphone_lib.Window.py for more details about how this class works
 class BlubphoneWindow(Window):
@@ -85,7 +86,7 @@ class BlubphoneWindow(Window):
 
     def on_Disconnect_clicked(self, widget):
         self.status.set_opened()
-          
+        
     # open WriteSMS-Tab
     def on_Write_clicked(self, widget):    		
         if self.status.connected == False:
@@ -184,9 +185,14 @@ class BlubphoneWindow(Window):
     def listenerConnected(self, connected):
         if connected:
 			self.newsms_btn.set_sensitive(True)
+			self.status.ip_entry.set_sensitive(False)
+			self.status.entry_field.set_sensitive(False)
             noti = Notify.Notification.new("connected", "You are now connected with your Smartphone", "notification-message-im")
             noti.show()
         else:
+			self.newsms_btn.set_sensitive(False)
+			self.status.ip_entry.set_sensitive(True)
+			self.status.entry_field.set_sensitive(True)
             noti = Notify.Notification.new("disconnected", "You are now disconnected from your Smartphone", "notification-message-im")
             noti.show()
         
@@ -205,5 +211,6 @@ class BlubphoneWindow(Window):
             #self.all_sms_threads = dict()
             #self.all_write_tabs = []
 
-
+	def disable_writebutton(self):
+		self.newsms_btn.set_sensitive(False)
 

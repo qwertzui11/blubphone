@@ -147,20 +147,17 @@ class Status:
 			
 	def on_disconnect_clicked(self, widget):
 		self.client.shutdown()
+		self.main_window.disable_writebutton()
+		self.entry_field.set_sensitive(True)
+		self.ip_entry.set_sensitive(True)
 		
 	
+	def get_ipfield():
+		return self.ip_entry
 		
-	'''def set_opened(self):
-		if (self.opened == False):		
-
-		    pagenum = self.notebook.append_page(self.status, self.close)
-		    self.notebook.set_current_page(pagenum)
-		    self.notebook.show_all()
-		    self.drop_conn_btn.hide()
 		
-		    self.opened = True
-	'''		
-			
+	def get_pw_field():
+		return self.entry_field			
 			
 	def set_builder(self, builder):
 		self.builder = builder
