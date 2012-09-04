@@ -13,6 +13,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -177,30 +178,31 @@ public class MainActivity extends PreferenceActivity implements OnPreferenceClic
 	
 	private void updateConnectionStatus()
 	{
+		Resources res = getResources();
 		String resultHeader = new String();
 		String resultText = new String();
 		if (!tcpServer.isConnected() && !tcpServer.isListening())
 		{
-			resultHeader = "Enable Connection";
+			resultHeader = res.getString(R.string.enable_connection);
 			if (ip != 0)
 			{
-				resultText = "Click here to allow Ubuntu to connect to this Smartphone. You have to be in the same WIFI/WLAN like your computer.";
+				resultText = res.getString(R.string.connect_ubuntu);
 			}
 			else
 			{
-				resultHeader = "Enable WIFI/WLAN";
-				resultText = "Please enable your WIFI/WLAN to get blubPhone started.";
+				resultHeader = res.getString(R.string.enable_wifi);
+				resultText = res.getString(R.string.enable_wifi_detail);
 			}
 		}
 		if (!tcpServer.isConnected() && tcpServer.isListening())
 		{
-			resultHeader = "Password: " + tcpServer.getPassword();
-			resultText = "blubPhone is waiting for a connection from Ubuntu. Please connect to the IP:" + ipString + " or click here to cancel.";
+			resultHeader = res.getString(R.string.password, tcpServer.getPassword());
+			resultText = res.getString(R.string.wait_for_connect, ipString);
 		}
 		if (tcpServer.isConnected())
 		{
-			resultHeader = "You are connected!";
-			resultText = "Enjoy writing and receiving SMS on your Ubuntu. Click to disconnect.";
+			resultHeader = res.getString(R.string.you_are_connected);
+			resultText = res.getString(R.string.connect_success);
 		}
 		
 		changePassword.setTitle(resultHeader);
