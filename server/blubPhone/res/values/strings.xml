@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">blubPhone</string>
@@ -8,5 +9,9 @@
     <string name="not_connected">You are not yet connected. Please connect to this Smartphone from your Ubuntu.\n</string>
     <string name="recreate_password">generate password</string>
     <string name="success_connected">Your are connected; have fun with blubPhone!\\nBuy the developer a beer at \"todo\"!</string>
+    <string name="quit">Quit</string>
+    <string name="really_quit">You won\'t be able to use the blubPhone service anymore.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>

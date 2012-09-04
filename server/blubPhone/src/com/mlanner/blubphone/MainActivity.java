@@ -6,16 +6,19 @@ import java.util.logging.Logger;
 
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 public class MainActivity extends PreferenceActivity implements OnPreferenceClickListener, ITcpServerReceiver, ISmsReadReceiver {
@@ -92,6 +95,34 @@ public class MainActivity extends PreferenceActivity implements OnPreferenceClic
 			mNotificationManager.cancel(NOTIFICATION_ID);
 			tcpServer.stopListening();
 		}
+	}
+	
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+	{
+		if(keyCode == KeyEvent.KEYCODE_BACK) {
+	        //Ask the user if they want to quit
+	        new AlertDialog.Builder(this)
+	        .setIcon(android.R.drawable.ic_dialog_alert)
+	        .setTitle(R.string.quit)
+	        .setMessage(R.string.really_quit)
+	        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+
+	            public void onClick(DialogInterface dialog, int which) {
+
+	                //Stop the activity
+	            	MainActivity.this.finish();    
+	            }
+
+	        })
+	        .setNegativeButton(R.string.no, null)
+	        .show();
+
+	        return true;
+		}
+
+	    return super.onKeyDown(keyCode, event);
 	}
 	
 	@Override 

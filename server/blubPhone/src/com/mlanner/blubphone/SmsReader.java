@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 
+
 public class SmsReader extends ContentObserver
 {
 	private Context context;
@@ -103,6 +104,6 @@ public class SmsReader extends ContentObserver
        return new MySmsMessage(id, threadId, address, person, timestamp, type, body, read);
 	}
 	
-
+	
 	
 }
