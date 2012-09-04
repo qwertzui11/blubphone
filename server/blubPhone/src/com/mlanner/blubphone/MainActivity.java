@@ -13,11 +13,15 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
+import android.provider.Settings;
+import android.text.format.Formatter;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -32,6 +36,8 @@ public class MainActivity extends PreferenceActivity implements OnPreferenceClic
 	private NotificationManager mNotificationManager;
 	private Notification notification;
 	private boolean savedInstance = false; 
+	private int ip;
+	private String ipString;
 	
 	private static final int NOTIFICATION_ID = 1;
 	
@@ -48,6 +54,11 @@ public class MainActivity extends PreferenceActivity implements OnPreferenceClic
 		tcpServer.setCallBackReceiver(this);
 
 		addPreferencesFromResource(R.xml.main_activity);
+		
+		WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+		WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+	   	ip = wifiInfo.getIpAddress();
+	   	ipString = Formatter.formatIpAddress(ip);
 
 		PreferenceScreen screen = getPreferenceScreen();
 		
@@ -136,6 +147,13 @@ public class MainActivity extends PreferenceActivity implements OnPreferenceClic
 	@Override 
 	public void onResume()
 	{
+		WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+		WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+	   	ip = wifiInfo.getIpAddress();
+	   	ipString = Formatter.formatIpAddress(ip);
+	   	
+	   	updateConnectionStatus();
+	   	
 		super.onResume();
 		savedInstance = false;
 	}
@@ -164,12 +182,20 @@ public class MainActivity extends PreferenceActivity implements OnPreferenceClic
 		if (!tcpServer.isConnected() && !tcpServer.isListening())
 		{
 			resultHeader = "Enable Connection";
-			resultText = "Click here to allow Ubuntu to connect to this Smartphone. You have to be in the same WLAN as your computer.";
+			if (ip != 0)
+			{
+				resultText = "Click here to allow Ubuntu to connect to this Smartphone. You have to be in the same WIFI/WLAN like your computer.";
+			}
+			else
+			{
+				resultHeader = "Enable WIFI/WLAN";
+				resultText = "Please enable your WIFI/WLAN to get blubPhone started.";
+			}
 		}
 		if (!tcpServer.isConnected() && tcpServer.isListening())
 		{
 			resultHeader = "Password: " + tcpServer.getPassword();
-			resultText = "blubPhone is waiting for a connection from Ubuntu. Click here to cancel.";
+			resultText = "blubPhone is waiting for a connection from Ubuntu. Please connect to the IP:" + ipString + " or click here to cancel.";
 		}
 		if (tcpServer.isConnected())
 		{
@@ -189,7 +215,14 @@ public class MainActivity extends PreferenceActivity implements OnPreferenceClic
 			
 			if (!tcpServer.isConnected() && !tcpServer.isListening())
 			{
-				tcpServer.startListening();
+				if (ip != 0)
+				{
+					tcpServer.startListening();
+				}
+				else
+				{
+					startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+				}
 			}
 			else if (!tcpServer.isConnected() && tcpServer.isListening())
 			{
