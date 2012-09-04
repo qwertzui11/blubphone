@@ -87,6 +87,7 @@ public class TcpServer implements Runnable {
 			if ((connectionSocket = serverSocket.accept()) != null)
 			{
 				broadcast.stop();
+				serverSocket.close();
 				listening = false;
 				connected = true;
 				callBackReceiver.connected(true);
