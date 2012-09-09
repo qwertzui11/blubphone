@@ -62,6 +62,7 @@ class SmsThread:
         
         self.textbuffer = self.sms_textfield.get_buffer()
         self.textbuffer.connect('insert_text', self.insert_text)
+        self.sms_textfield.connect('key_press_event', self.on_key_press_event)
 
         self.send_btn = answer_builder.get_object("send_btn")
         self.send_btn.connect("clicked", self.on_send_clicked)
@@ -130,6 +131,33 @@ class SmsThread:
         else:
             self.sms_statuslabel.set_text(str(size) + "/480 [Text is too long]")
 
+            
+	def on_key_press_event(self, widget, event):
+		ctrl_pressed = False
+		keyname = Gdk.keyval_name(event.keyval)
+		
+		# Control_L ... Return
+		keyname = Gdk.keyval_name(event.keyval)
+		print "Key %s (%d) was pressed" % (keyname, event.keyval)
+		if event.state & event.get_state().CONTROL_MASK:
+			ctrl_pressed = True
+			
+		if (ctrl_pressed &	(keyname == "Return")):
+			# max 480 chars allowed
+			if (self.textbuffer.get_char_count() + 1 <= 480):
+				sms_text = self.textbuffer.get_text(self.textbuffer.get_start_iter() , self.textbuffer.get_end_iter(),
+						include_hidden_chars=True)
+			else:
+				sms_text = "too long!"
+
+			if len(sms_text) < 1:
+				return
+				
+			self.main_window.send_sms(self.contact, sms_text)
+			self.textbuffer.set_text("")
+			self.sms_statuslabel.set_text("0/480 [1 SMS]")
+		
+		
 
     # gets called when text is inserted in the write_sms textfield
     def insert_text(self, widget, iter, text, len):
@@ -142,7 +170,7 @@ class SmsThread:
             self.sms_statuslabel.set_text(str(size) + "/480 [3 SMS]")
         else:
             self.sms_statuslabel.set_text(str(size) + "/480 [Text is too long]")
-		
+            
 		
 	def on_send_clicked(self, widget):
         # max 480 chars allowed
@@ -154,6 +182,7 @@ class SmsThread:
 
         if len(sms_text) < 1:
             return
+            
         self.main_window.send_sms(self.contact, sms_text)
         self.textbuffer.set_text("")
         self.sms_statuslabel.set_text("0/480 [1 SMS]")
@@ -161,11 +190,6 @@ class SmsThread:
         
 		
 	def on_tabclose_clicked(self, widget):
-		'''pagenum = self.notebook.page_num(self.answer)
-        if pagenum < 0:
-            print "invalid pagenum"
-            return
-		self.notebook.remove_page(pagenum)	'''
         self.answer.hide()
         self.main_window.unregister_sms_thread(self.contact)
 
