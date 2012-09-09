@@ -77,7 +77,7 @@ class Write:
         # display the contact list in the treeview
         for contact in self.contacts:
             self.liststore.append([contact.get_name(), contact.get_telnr()])
-
+			
 		self.treeview.set_model(self.liststore)  
 
 		self.treeview.connect('cursor-changed', self.row_activated_click)		
@@ -119,6 +119,7 @@ class Write:
             (model, iter) = treeselection.get_selected()
             value = self.liststore.get_value(iter, 1)
 
+            print treeselection.get_selected_rows()[1][0]
             self.selected_row = int(str(treeselection.get_selected_rows()[1][0]))
 
             self.phonenr_field.set_text(value)
@@ -130,7 +131,8 @@ class Write:
     def activate_answer_view(self):
         # if a row (contact) is chosen 
         try:
-            cur_contact = self.contacts[self.selected_row]
+			
+            cur_contact = self.searched_contacts[self.selected_row]
             
             # if the selected contact has no phone nr entry
             if (cur_contact.get_telnr() == ""):
