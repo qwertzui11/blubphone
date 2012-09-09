@@ -190,13 +190,13 @@ class BlubphoneWindow(Window):
 			self.newsms_btn.set_sensitive(True)
 			self.status.ip_entry.set_sensitive(False)
 			self.status.entry_field.set_sensitive(False)
-            noti = Notify.Notification.new("connected", "You are now connected with your Smartphone", PROJECT_ROOT_DIRECTORY + "/media/logo_new_small.png")
+            noti = Notify.Notification.new("Connected", "You are now connected with your Smartphone", PROJECT_ROOT_DIRECTORY + "/media/logo_new_small.png")
             noti.show()
         else:
 			self.newsms_btn.set_sensitive(False)
 			self.status.ip_entry.set_sensitive(True)
 			self.status.entry_field.set_sensitive(True)
-            noti = Notify.Notification.new("disconnected", "You are now disconnected from your Smartphone", PROJECT_ROOT_DIRECTORY + "/media/logo_new_small.png")
+            noti = Notify.Notification.new("Disconnected", "You are now disconnected from your Smartphone", PROJECT_ROOT_DIRECTORY + "/media/logo_new_small.png")
             noti.show()
         
         if connected == False:
