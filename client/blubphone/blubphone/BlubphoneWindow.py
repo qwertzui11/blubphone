@@ -37,6 +37,9 @@ from blubphone_lib import Window
 from blubphone.AboutBlubphoneDialog import AboutBlubphoneDialog
 from blubphone.PreferencesBlubphoneDialog import PreferencesBlubphoneDialog
 
+PROJECT_ROOT_DIRECTORY = os.path.abspath(
+        os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))) + "/data/"
+
 # See blubphone_lib.Window.py for more details about how this class works
 class BlubphoneWindow(Window):
     __gtype_name__ = "BlubphoneWindow"   
@@ -119,10 +122,10 @@ class BlubphoneWindow(Window):
                     SmsThread.SmsThread(self.notebook, Contact.Contact(0, "", telnr), self)
 
             if telnr in self.all_contacts:
-                noti = Notify.Notification.new("Incoming SMS", self.all_contacts[telnr].get_name() + ": " + sms.get_text(), "notification-message-im")
+                noti = Notify.Notification.new("Incoming SMS", self.all_contacts[telnr].get_name() + ": " + sms.get_text(), PROJECT_ROOT_DIRECTORY + "/media/logo_new_small.png")
 	            noti.show()
             else:
-                noti = Notify.Notification.new("Incoming SMS", telnr + ": " + sms.get_text(), "notification-message-im")
+                noti = Notify.Notification.new("Incoming SMS", telnr + ": " + sms.get_text(), PROJECT_ROOT_DIRECTORY + "/media/logo_new_small.png")
 	            noti.show()
         
 
@@ -187,13 +190,13 @@ class BlubphoneWindow(Window):
 			self.newsms_btn.set_sensitive(True)
 			self.status.ip_entry.set_sensitive(False)
 			self.status.entry_field.set_sensitive(False)
-            noti = Notify.Notification.new("connected", "You are now connected with your Smartphone", "notification-message-im")
+            noti = Notify.Notification.new("connected", "You are now connected with your Smartphone", PROJECT_ROOT_DIRECTORY + "/media/logo_new_small.png")
             noti.show()
         else:
 			self.newsms_btn.set_sensitive(False)
 			self.status.ip_entry.set_sensitive(True)
 			self.status.entry_field.set_sensitive(True)
-            noti = Notify.Notification.new("disconnected", "You are now disconnected from your Smartphone", "notification-message-im")
+            noti = Notify.Notification.new("disconnected", "You are now disconnected from your Smartphone", PROJECT_ROOT_DIRECTORY + "/media/logo_new_small.png")
             noti.show()
         
         if connected == False:
