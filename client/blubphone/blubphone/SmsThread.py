@@ -154,9 +154,10 @@ class SmsThread:
 
         if len(sms_text) < 1:
             return
-        self.main_window.send_sms(self.contact, sms_text)
-        self.textbuffer.set_text("")
-        self.sms_statuslabel.set_text("0/480 [1 SMS]")
+
+        if self.main_window.send_sms(self.contact, sms_text):
+            self.textbuffer.set_text("")
+            self.sms_statuslabel.set_text("0/480 [1 SMS]")
         
         
 		

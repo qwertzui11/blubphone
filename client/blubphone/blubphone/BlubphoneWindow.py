@@ -49,6 +49,7 @@ class BlubphoneWindow(Window):
     all_sms = dict()
     all_sms_threads = dict()
     #all_write_tabs = []
+    connected = False
     
     def finish_initializing(self, builder): # pylint: disable=E1002
         """Set up the main window"""
@@ -183,9 +184,15 @@ class BlubphoneWindow(Window):
         print "todo: focus thread"
 
     def send_sms(self, contact, sms_text):
-        self.status.client.sendSms(contact.get_telnr(), sms_text)
+        if self.connected == False:
+            return False
+        else:
+            self.status.client.sendSms(contact.get_telnr(), sms_text)
+        return True
         
     def listenerConnected(self, connected):
+        self.connected = connected
+        
         if connected:
 			self.newsms_btn.set_sensitive(True)
 			self.status.ip_entry.set_sensitive(False)
