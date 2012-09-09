@@ -182,13 +182,12 @@ class SmsThread:
 
         if len(sms_text) < 1:
             return
+
+        if self.main_window.send_sms(self.contact, sms_text):
+            self.textbuffer.set_text("")
+            self.sms_statuslabel.set_text("0/480 [1 SMS]")
+
             
-        self.main_window.send_sms(self.contact, sms_text)
-        self.textbuffer.set_text("")
-        self.sms_statuslabel.set_text("0/480 [1 SMS]")
-        
-        
-		
 	def on_tabclose_clicked(self, widget):
         self.answer.hide()
         self.main_window.unregister_sms_thread(self.contact)
