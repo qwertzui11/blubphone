@@ -39,9 +39,6 @@ class Status:
 		self.notebook = notebook
 		self.main_window = main_window
 
-        self.dialog = Gtk.MessageDialog(main_window, 0, Gtk.MessageType.WARNING, Gtk.ButtonsType.CLOSE, "Network error")
-        self.dialog.set_title("Network error")
-
         print PROJECT_ROOT_DIRECTORY
 		
 		status_builder = Gtk.Builder()
@@ -186,9 +183,11 @@ class Status:
     
     def listenerError(self, error):
         print "before error"
-        self.dialog.set_markup(error)
-        self.dialog.run()
-        self.dialog.hide()
+        dialog = Gtk.MessageDialog(self.main_window, 0, Gtk.MessageType.WARNING, Gtk.ButtonsType.CLOSE, "Network error")
+        dialog.set_title("Network error")
+        dialog.set_markup(error)
+        dialog.run()
+        dialog.hide()
         print error
 
     def shutdown_network(self):
@@ -199,8 +198,10 @@ class Status:
         if self.connected == True:
             self.client.sendSms(phone_number, message)
         else:
-            self.dialog.set_markup("Cannot send Sms, because not connected.")
-            self.dialog.run()
-            self.dialog.hide()
+            dialog = Gtk.MessageDialog(self.main_window, 0, Gtk.MessageType.WARNING, Gtk.ButtonsType.CLOSE, "Network error")
+            dialog.set_title("Network error")
+            dialog.set_markup("Cannot send Sms, because not connected.")
+            dialog.run()
+            dialog.hide()
             return False
         return True
