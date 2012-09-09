@@ -81,8 +81,13 @@ class Write:
 		self.treeview.set_model(self.liststore)  
 
 		self.treeview.connect('cursor-changed', self.row_activated_click)		
-
+        self.treeview.connect('row-activated', self.row_activated_enter)	
 	
+    def row_activated_enter(self, widget, a, b):
+        print "row_activated_enter"
+        self.row_activated_click(widget)
+        self.on_ok_clicked(widget)
+
 	def search_dict(self):
 		text = self.search_field.get_text()	
 		self.searched_contacts = []
