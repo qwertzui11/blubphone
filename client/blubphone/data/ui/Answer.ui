@@ -101,7 +101,7 @@
             </child>
             <child>
               <object class="GtkButton" id="send_btn">
-                <property name="label" translatable="yes">Send</property>
+                <property name="label" translatable="yes">Send [Ctrl+Enter]</property>
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
