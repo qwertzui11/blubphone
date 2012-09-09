@@ -195,6 +195,12 @@ class Status:
         self.broadcast.shutdown()
         self.client.shutdown()
 
-
-
-        
+    def sendSms(self, phone_number, message):
+        if self.connected == True:
+            self.client.sendSms(phone_number, message)
+        else:
+            self.dialog.set_markup("Cannot send Sms, because not connected.")
+            self.dialog.run()
+            self.dialog.hide()
+            return False
+        return True
