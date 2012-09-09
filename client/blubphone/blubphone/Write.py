@@ -84,7 +84,6 @@ class Write:
         self.treeview.connect('row-activated', self.row_activated_enter)	
 	
     def row_activated_enter(self, widget, a, b):
-        print "row_activated_enter"
         self.row_activated_click(widget)
         self.on_ok_clicked(widget)
 
@@ -124,7 +123,6 @@ class Write:
             (model, iter) = treeselection.get_selected()
             value = self.liststore.get_value(iter, 1)
 
-            print treeselection.get_selected_rows()[1][0]
             self.selected_row = int(str(treeselection.get_selected_rows()[1][0]))
 
             self.phonenr_field.set_text(value)

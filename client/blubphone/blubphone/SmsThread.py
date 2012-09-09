@@ -68,13 +68,7 @@ class SmsThread:
         self.send_btn.connect("clicked", self.on_send_clicked)
         
         messages = self.main_window.get_all_sms(self.contact.get_telnr())
-        # msg_id, thread_id, person_telnr, person_id, msg_timestamp, msg_type, msg_text
-        '''
-        messages.append(Message.Message(0, 10, "0699/19478701", "manu", "30.10.2012 13:00", 2, "hallo markus hallo markus hallo markus hallo markus hallo markus hallo markus hallo markus hallo markus"))
-        messages.append(Message.Message(0, 10, "0699/55555555", "markus", "30.10.2012 14:15", 1, "hallo manu"))
-        messages.append(Message.Message(0, 10, "0699/55555555", "markus", "30.10.2012 14:16", 1, "schön von dir zu hören"))
-        messages.append(Message.Message(0, 10, "0699/19478701", "manu", "30.10.2012 16:04", 2, "wie gehts?"))
-        '''
+
         self.liststore = Gtk.ListStore(str, str, str, str)
         self.treeview = answer_builder.get_object("treeview1")
 
@@ -97,9 +91,7 @@ class SmsThread:
 		# add dummy data
 		for msg in messages:
             self.append_sms(msg)
-		
-		# self.liststore.append(["Manu", "0650/2040726"])
-		
+				
 		self.treeview.set_model(self.liststore)  
 
 		self.treeview.show_all() 
@@ -138,7 +130,6 @@ class SmsThread:
 		
 		# Control_L ... Return
 		keyname = Gdk.keyval_name(event.keyval)
-		print "Key %s (%d) was pressed" % (keyname, event.keyval)
 		if event.state & event.get_state().CONTROL_MASK:
 			ctrl_pressed = True
 			
@@ -198,7 +189,11 @@ class SmsThread:
         if (msg.get_type() == 2):
 			self.liststore.prepend(["me\n" + msg.get_time_string(), msg.get_text(), "#179920", "#FFFFFF"])
 		else:
-			self.liststore.prepend([self.contact.get_name() + "\n" + msg.get_time_string(), msg.get_text(), "#175E99", "#FFFFFF"])
+			if (self.contact.get_name() != ""):
+				self.liststore.prepend([self.contact.get_name() + "\n" + msg.get_time_string(), msg.get_text(), "#175E99", "#FFFFFF"]) 
+			else:
+				self.liststore.prepend([self.contact.get_telnr() + "\n" + msg.get_time_string(), msg.get_text(), "#175E99", "#FFFFFF"])
+				
         GLib.timeout_add(100, self.updateVScroll)
         
 
